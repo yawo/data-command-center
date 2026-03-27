@@ -1,0 +1,6 @@
+risk_id,risk_title,risk_description,risk_category,probability,impact,risk_score,risk_level,mitigation_strategy,contingency_plan,risk_owner_role,status,notes
+RSK-001,Change Management Resistance,Stakeholders resistant to new data governance processes,Organizational Change Resistance,High,High,9,Critical,Early engagement and training program,Extend timeline and add change agents,CDO,Open,Key stakeholder already identified as champion
+RSK-002,Legacy System Integration,Complex integration with aging on-premise systems,Technology and Vendor,Medium,High,6,High,Phased integration with middleware layer,Reduce scope to cloud systems first,VP Engineering,Open,Legacy ERP is main challenge
+RSK-003,Budget Overrun,Project costs exceed approved budget due to scope creep,Financial and Budget,Low,High,4,Medium,Strict change control process,Prioritize wave 1 only,Finance Director,Open,Contingency built in
+RSK-004,Talent Acquisition Risk,Difficulty hiring skilled data engineers and architects,Talent and Skills,Medium,Medium,4,Medium,Use contractors initially,Offshore team augmentation,CIO,Open,2 senior roles proving difficult
+RSK-005,Data Quality Scope,Data quality issues more pervasive than assessed,Data or Technical Quality,Medium,High,6,High,Implement data quality framework early,Expand wave 1 scope,Data Architect,Open,Initial assessment shows moderate issues

@@ -1,0 +1,7 @@
+kpi_id,kpi_name,kpi_type,kpi_category,kpi_description,measurement_formula,measurement_unit,baseline_value,target_value_12m,target_value_24m,measurement_frequency,owner_role,status
+KPI-001,Data Quality Index,Leading Indicator,Data Quality,Overall data quality score across critical domains,(Clean Records / Total Records) * 100,Percentage,62,75,85,Monthly,Chief Data Officer,Active
+KPI-002,Data Governance Adoption,Lagging Indicator,Data Governance Adoption,% of data domains with assigned stewards and policies,(Domains with Governance / Total Domains) * 100,Percentage,38,65,80,Quarterly,CDO,Active
+KPI-003,Time to Insight,Leading Indicator,Data Platform Performance,Average time from data request to dashboard availability,Avg(dashboard_published_date - request_date),Days,45,25,10,Monthly,VP Engineering,Active
+KPI-004,Data Catalog Coverage,Leading Indicator,Data Governance Adoption,% of enterprise data assets in catalog,(Cataloged Assets / Total Assets) * 100,Percentage,25,60,85,Monthly,Data Architect,Active
+KPI-005,Use Case Delivery Rate,Leading Indicator,Business Value Realization,% of planned use cases delivered on time and in budget,(Delivered UC / Planned UC) * 100,Percentage,0,70,90,Quarterly,Program Manager,Active
+KPI-006,Stakeholder Satisfaction,Leading Indicator,Data Literacy and Culture,Net promoter score from data consumers survey, NPS score from quarterly survey,-15,20,45,Quarterly,CDO,Active

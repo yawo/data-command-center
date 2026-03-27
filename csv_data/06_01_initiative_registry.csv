@@ -1,0 +1,6 @@
+initiative_id,initiative_name,description,wave,phase,status,priority,complexity,estimated_effort_days,start_date,end_date,budget_usd,owner_role,linked_use_case_ids,linked_gap_ids,risk_level,notes
+IN-001,Data Governance Framework,Establish policies, standards and governance body for enterprise data management,Wave 1,Design,Active,High,Medium,60,2024-01-15,2024-04-15,150000,Chief Data Officer,"UC-001,UC-002",GAP-001,Medium,Foundation initiative
+IN-002,Master Data Platform,Implement MDM platform for customer and product master data,Wave 1,Design,Active,High,High,90,2024-02-01,2024-05-31,280000,Data Architect,UC-002,GAP-002,High,Core infrastructure
+IN-003,Analytics Environment,Build unified analytics platform with BI and ML capabilities,Wave 2,Planning,Pending,High,Medium,75,2024-06-01,2024-09-15,220000,VP Engineering,UC-001,UC-003,GAP-003,Medium,Scalable foundation
+IN-004,Data Quality Automation,Deploy automated data quality monitoring and remediation,Wave 1,Design,Active,High,Medium,45,2024-01-20,2024-03-31,120000,Data Architect,UC-005,GAP-004,Low,Quick win
+IN-005,Compliance Automation,Automated regulatory reporting and audit trails,Wave 2,Planning,Pending,Medium,Medium,55,2024-06-15,2024-09-30,180000,Compliance Lead,UC-004,GAP-005,Medium,SOX/GDPR focus

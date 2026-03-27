@@ -1,0 +1,6 @@
+stakeholder_id,full_name,title,department,level,data_role,engagement_relevance,interview_priority,interview_status,influence_level,attitude_toward_change,notes
+SH-001,Sarah Chen,Chief Data Officer,Technology,C-suite,Sponsor,Primary sponsor for data strategy,High,Completed,High,Champion,Driving force behind initiative
+SH-002,Michael Torres,VP Engineering,Engineering,VP,Owner,Technical architecture decisions,Medium,Scheduled,High,Champion,Strong advocate for data platform
+SH-003,Emily Watson,Director Finance,Finance,Director,Consumer,Budget and ROI discussions,High,Completed,Medium,Neutral,Focused on cost justification
+SH-004,James Park,Data Architect,Technology,Manager,Steward,Architecture review,High,Scheduled,Medium,Champion,Key technical stakeholder
+SH-005,Lisa Kumar,Operations Lead,Operations,Director,Producer,Process and data flow understanding,Medium,Not scheduled,Medium,Neutral,Process expertise

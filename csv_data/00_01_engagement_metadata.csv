@@ -1,0 +1,19 @@
+field,value
+client_name,Acme Corporation
+engagement_code,DS-2024-001
+lead_partner,John Mitchell
+start_date,2024-01-10
+planned_end_date,2024-12-20
+current_phase,Discovery
+engagement_type,Full Strategy
+confidentiality_level,Client Confidential
+version_number,v1.2
+last_updated_date,2024-03-15
+client_industry,Manufacturing
+client_geography,North America
+client_annual_revenue_range,$500M-$1B
+number_of_employees,5000
+primary_sponsor_title,Chief Data Officer
+engagement_objectives_summary,Establish enterprise data strategy, implement governance framework, build analytics platform
+agreed_scope_boundaries,Core financial and operational data domains, Customer and Product master data
+out_of_scope_items,HR systems, legacy SCADA systems, real-time IoT streams

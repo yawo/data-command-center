@@ -1,0 +1,10 @@
+import { useState, useEffect } from "react";
+
+const NAV = [
+  { href: "/", label: "Dashboard" },
+  { href: "/explorer", label: "Explorer" },
+  { href: "/data", label: "Data Manager", active: true },
+  { href: "/stakeholders", label: "Stakeholders" },
+  { href: "/roadmap", label: "Roadmap" },
+  { href: "/governance", label: "Governance" },
+];
