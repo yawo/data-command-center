@@ -1,22 +1,152 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const NAV=[{h:"/",l:"Dashboard"},{h:"/data",l:"Data"},{h:"/stakeholders",l:"Stakeholders"},{h:"/roadmap",l:"Roadmap"}];
+const NAV=[
+  {h:"/",l:"Dashboard"},
+  {h:"/explorer",l:"Explorer"},
+  {h:"/data",l:"Data Manager"},
+  {h:"/stakeholders",l:"Stakeholders"},
+  {h:"/roadmap",l:"Roadmap"},
+  {h:"/governance",l:"Governance"},
+];
 
-function DonutChart({d,title}){const t=d.reduce((a,c)=>a+c.v,0);let cu=0;const p=d.map((c,i)=>{const sa=(cu/t)*360-90;cu+=c.v;const ea=(cu/t)*360-90;const x1=100+(85)*Math.cos(sa*Math.PI/180);const y1=100+(85)*Math.sin(sa*Math.PI/180);const x2=100+(85)*Math.cos(ea*Math.PI/180);const y2=100+(85)*Math.sin(ea*Math.PI/180);const la=ea-sa>180?1:0;return{path:`M${x1} ${y1}A85 85 0 ${la} 1 ${x2} ${y2}`,c:c.c,l:c.l,pct:Math.round(c.v/t*100)};});return(<div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4"><h3 className="text-sm font-semibold text-zinc-300 mb-3">{title}</h3><div className="flex items-center gap-4"><svg viewBox="0 0 200 200" className="w-36 h-36"><circle cx="100" cy="100" r="85" fill="none" stroke="#27272a" strokeWidth="20"/>{p.map((pp,i)=><path key={i} d={pp.path} fill="none" stroke={pp.c} strokeWidth="18" strokeLinecap="round"/>)}<text x="100" y="100" textAnchor="middle" dominantBaseline="middle" className="fill-white text-lg font-bold">{t}</text></svg><div className="space-y-1">{d.map((c,i)=><div key={i} className="flex items-center gap-2"><div className="w-2 h-2 rounded-full" style={{backgroundColor:c.c}}/><span className="text-xs text-zinc-300">{c.l}</span><span className="text-xs text-zinc-500 ml-auto">{p[i].pct}%</span></div>)}</div></div></div>);}
+function DonutChart({d,title}){
+  const t=d.reduce((a,c)=>a+c.v,0);
+  let cu=0;
+  const p=d.map((c,i)=>{
+    const sa=(cu/t)*360-90;
+    cu+=c.v;
+    const ea=(cu/t)*360-90;
+    const x1=100+85*Math.cos(sa*Math.PI/180);
+    const y1=100+85*Math.sin(sa*Math.PI/180);
+    const x2=100+85*Math.cos(ea*Math.PI/180);
+    const y2=100+85*Math.sin(ea*Math.PI/180);
+    const la=ea-sa>180?1:0;
+    return{path:"M"+x1+" "+y1+"A85 85 0 "+la+" 1 "+x2+" "+y2,c:c.c,l:c.l,pct:Math.round(c.v/t*100)};
+  });
+  return(<div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
+    <h3 className="text-sm font-semibold text-zinc-300 mb-3">{title}</h3>
+    <div className="flex items-center gap-4">
+      <svg viewBox="0 0 200 200" className="w-36 h-36">
+        <circle cx="100" cy="100" r="85" fill="none" stroke="#27272a" strokeWidth="20"/>
+        {p.map((pp,i)=><path key={i} d={pp.path} fill="none" stroke={pp.c} strokeWidth="18" strokeLinecap="round"/>)}
+        <text x="100" y="100" textAnchor="middle" dominantBaseline="middle" className="fill-white text-lg font-bold">{"+t+"}</text>
+      </svg>
+      <div className="space-y-1">
+        {"+d.map((c,i)=><div key={i} className="flex items-center gap-2"><div className="w-2 h-2 rounded-full" style={{backgroundColor:c.c}}/><span className="text-xs text-zinc-300">{"+c.l+"}</span><span className="text-xs text-zinc-500 ml-auto">{"+p[i].pct+"}%</span></div>)}
+      </div>
+    </div>
+  </div>);
+}
 
-function BarChart({d,title,c="#3b82f6"}){const m=Math.max(...d.map(x=>x.v));return(<div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4"><h3 className="text-sm font-semibold text-zinc-300 mb-3">{title}</h3><div className="flex items-end gap-2 h-32">{d.map((x,i)=><div key={i} className="flex-1 flex flex-col items-center gap-1"><div className="w-full rounded-t relative" style={{height:`${(x.v/m)*110}px`,background:`linear-gradient(to top,${c}dd,${c}88)`}}/><span className="text-[10px] text-zinc-500">{x.l}</span></div>)}</div></div>);}
+function GaugeChart({v,title}){
+  const angle=(v/100)*180;
+  const c=v>=70?"#10b981":v>=40?"#eab308":"#ef4444";
+  return(<div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
+    <h3 className="text-sm font-semibold text-zinc-300 mb-2">{title}</h3>
+    <div className="flex justify-center">
+      <svg viewBox="0 0 120 70" className="w-28">
+        <path d="M 10 60 A 50 50 0 0 1 110 60" fill="none" stroke="#27272a" strokeWidth="8" strokeLinecap="round"/>
+        <path d="M 10 60 A 50 50 0 0 1 110 60" fill="none" stroke={c} strokeWidth="8" strokeLinecap="round" strokeDasharray={"+angle/180*157+" 157"}/>
+        <text x="60" y="55" textAnchor="middle" className="fill-white text-lg font-bold">{"+v+"}</text>
+      </svg>
+    </div>
+  </div>);
+}
 
-function ProgressBar({d,title}){return(<div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4"><h3 className="text-sm font-semibold text-zinc-300 mb-3">{title}</h3><div className="space-y-2">{d.map((x,i)=><div key={i}><div className="flex justify-between text-xs mb-1"><span className="text-zinc-300">{x.l}</span><span className="text-zinc-500">{x.v}%</span></div><div className="h-2 bg-zinc-800 rounded-full overflow-hidden"><div className="h-full rounded-full" style={{width:`${x.v}%`,background:`linear-gradient(to right,${x.c}dd,${x.c}88)`}}/></div></div>)}</div></div>);}
+function BarChart({d,title,c="#3b82f6"}){
+  const m=Math.max(...d.map(x=>x.v),1);
+  return(<div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
+    <h3 className="text-sm font-semibold text-zinc-300 mb-3">{title}</h3>
+    <div className="flex items-end gap-2 h-32">
+      {"+d.map((x,i)=><div key={i} className="flex-1 flex flex-col items-center gap-1">
+        <div className="w-full rounded-t" style={{height:Math.max((x.v/m)*110,4)+"px",background:"linear-gradient(to top,"+c+"dd,"+c+"88)"}}/>
+        <span className="text-[10px] text-zinc-500">{"+x.l+"}</span>
+      </div>)}
+    </div>
+  </div>);
+}
 
-function FunnelChart({d,title}){const m=Math.max(...d.map(x=>x.v));return(<div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4"><h3 className="text-sm font-semibold text-zinc-300 mb-3">{title}</h3><div className="space-y-1">{d.map((x,i)=>{const w=(x.v/m)*100;return(<div key={i} className="relative h-7"><div className="absolute inset-0 flex items-center justify-center"><div className="rounded flex items-center justify-between px-3 text-xs font-medium" style={{width:`${w}%`,background:`linear-gradient(135deg,${x.c},${x.c}bb)`}}><span className="text-white">{x.l}</span><span className="text-white/80">{x.v}</span></div></div></div>);})}</div></div>);}
+export default function Dashboard(){
+  const [stats,setStats]=useState({uc:0,dom:0,init:0,pp:0,risks:0,kpis:0,sh:0,complete:0,champions:0,gaps:0});
+  const [ucData,setUcData]=useState([]);
+  const [initData,setInitData]=useState([]);
+  const [gapData,setGapData]=useState([]);
 
-function RadarChart({d,title}){const size=200,cx=100,cy=100,r=75;const n=d.length,step=(2*Math.PI)/n;const getP=(i,val)=>{const angle=i*step-Math.PI/2;return{x:cx+r*(val/100)*Math.cos(angle),y:cy+r*(val/100)*Math.sin(angle)};};const polyPts=d.map((x,i)=>`${getP(i,x.v).x},${getP(i,x.v).y}`).join(" ");return(<div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4"><h3 className="text-sm font-semibold text-zinc-300 mb-3">{title}</h3><svg viewBox="0 0 200 200" className="w-full aspect-square">{[100,75,50,25].map((level,i)=><polygon key={i} points={d.map((_,j)=>{const p=getP(j,level);return`${p.x},${p.y}`;}).join(" ")} fill="none" stroke="#3f3f46" strokeWidth="1"/>)}{d.map((_,i)=>{const p=getP(i,100);return<line key={i} x1={cx} y1={cy} x2={p.x} y2={p.y} stroke="#3f3f46" strokeWidth="1"/>;})}<polygon points={polyPts} fill="rgba(59,130,246,0.15)" stroke="#3b82f6" strokeWidth="2"/>{d.map((x,i)=>{const p=getP(i,x.v);return<circle key={i} cx={p.x} cy={p.y} r="4" fill="#3b82f6"/>;})}</svg><div className="flex justify-between text-[9px] text-zinc-500 mt-1">{d.map((x,i)=><span key={i} className="text-center">{x.l}</span>)}</div></div>);}
+  useEffect(()=>{
+    const get=(k)=>{const d=localStorage.getItem(k);return d?JSON.parse(d):[]};
+    const uc=get("ds_04_01_use_case_longlist");
+    const init=get("ds_06_01_initiative_registry");
+    const sh=get("ds_01_01_stakeholder_registry");
+    const gap=get("ds_03_01_gap_register");
+    setUcData(uc);setInitData(init);setGapData(gap);
+    setStats({
+      uc:uc.length,
+      dom:(localStorage.getItem("ds_02_01_data_domain_inventory")||"[]").length?JSON.parse(localStorage.getItem("ds_02_01_data_domain_inventory")).length:0,
+      init:init.length,
+      pp:(localStorage.getItem("ds_02_09_pain_point_register")||"[]").length?JSON.parse(localStorage.getItem("ds_02_09_pain_point_register")).length:0,
+      risks:(localStorage.getItem("ds_09_01_risk_register")||"[]").length?JSON.parse(localStorage.getItem("ds_09_01_risk_register")).length:0,
+      kpis:(localStorage.getItem("ds_09_02_kpi_framework")||"[]").length?JSON.parse(localStorage.getItem("ds_09_02_kpi_framework")).length:0,
+      sh:sh.length,
+      complete:sh.filter(x=>x.interview_status==="Completed").length,
+      champions:sh.filter(x=>x.attitude_toward_change==="Champion").length,
+      gaps:gap.length,
+    });
+  },[]);
 
-function HeatmapChart({d,title,xL,yL}){const getC=(v)=>{if(v>=80)return"#10b981";if(v>=60)return"#22c55e";if(v>=40)return"#eab308";if(v>=20)return"#f97316";return"#ef4444";};return(<div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4"><h3 className="text-sm font-semibold text-zinc-300 mb-3">{title}</h3><div className="grid gap-0.5" style={{gridTemplateColumns:`60px repeat(${xL.length},1fr)`}}><div/>{xL.map((x,i)=><div key={i} className="text-[9px] text-zinc-500 text-center">{x}</div>)}{d.map((row,i)=><React.Fragment key={i}><div className="text-[9px] text-zinc-400 flex items-center">{yL[i]}</div>{row.map((v,j)=><div key={j} className="aspect-square rounded flex items-center justify-center text-[8px] font-medium" style={{backgroundColor:getC(v),color:"#fff"}}>{v}</div>)}</React.Fragment>)}</div></div>);}
+  const completionPct=stats.sh>0?Math.round(stats.complete/stats.sh*100):0;
+  const w1=initData.filter(i=>i.wave==="Wave 1").length;
+  const w2=initData.filter(i=>i.wave==="Wave 2").length;
+  const w3=initData.filter(i=>i.wave==="Wave 3").length;
 
-function GanttChart({d,title}){const months=["M0","M2","M4","M6","M8","M10","M12","M14"];const colors={"Completed":"#10b981","In Progress":"#3b82f6","Planned":"#6b7280","On Hold":"#f59e0b"};return(<div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4"><h3 className="text-sm font-semibold text-zinc-300 mb-3">{title}</h3><div className="overflow-x-auto"><div className="min-w-[350px]"><div className="flex mb-1 pl-20">{months.map((m,i)=><div key={i} className="flex-1 text-[9px] text-zinc-500 text-center">{m}</div>)}</div><div className="space-y-1">{d.map((x,i)=><div key={i} className="flex items-center gap-2"><div className="w-20 text-[9px] text-zinc-400 truncate">{x.n}</div><div className="flex-1 relative h-5 bg-zinc-800 rounded"><div className="absolute h-full rounded" style={{left:`${(x.s/14)*100}%`,width:`${(x.d/14)*100}%`,backgroundColor:colors[x.st]}}/><div className="absolute inset-0 flex items-center justify-center"><span className="text-[8px] text-white/90">{x.p}%</span></div></div></div>)}</div></div></div></div>);}
+  const ucByDomain={};
+  ucData.forEach(u=>{if(u.business_domain){ucByDomain[u.business_domain]=(ucByDomain[u.business_domain]||0)+1;}});
+  const ucDomainD=Object.entries(ucByDomain).map(([l,v],i)=>({l,v,c:["#3b82f6","#8b5cf6","#10b981","#f59e0b","#ef4444","#ec4899"][i%6]}));
 
-function GaugeChart({v,title}){const angle=(v/100)*180;const c=v>=70?"#10b981":v>=40?"#eab308":"#ef4444";return(<div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4"><h3 className="text-sm font-semibold text-zinc-300 mb-2">{title}</h3><div className="flex justify-center"><svg viewBox="0 0 120 70" className="w-28"><path d="M 10 60 A 50 50 0 0 1 110 60" fill="none" stroke="#27272a" strokeWidth="8" strokeLinecap="round"/><path d="M 10 60 A 50 50 0 0 1 110 60" fill="none" stroke={c} strokeWidth="8" strokeLinecap="round" strokeDasharray={`${(angle/180)*157} 157`}/><text x="60" y="55" textAnchor="middle" className="fill-white text-lg font-bold">{v}</text></svg></div></div>);}
+  const gapSev={};
+  gapData.forEach(g=>{if(g.severity){gapSev[g.severity]=(gapSev[g.severity]||0)+1;}});
+  const gapSevD=Object.entries(gapSev).map(([l,v],i)=>({l,v,c:l==="Critical"?"#ef4444":l==="High"?"#f97316":l==="Medium"?"#eab308":"#6b7280"}));
 
-export default function Dashboard(){const[tab,setTab]=useState("overview");const ucType=[{l:"Analytics",v:45,c:"#3b82f6"},{l:"AI/ML",v:28,c:"#8b5cf6"},{l:"Governance",v:18,c:"#10b981"},{l:"Compliance",v:12,c:"#f59e0b"}];const ucDomain=[{l:"Finance",v:32,c:"#3b82f6"},{l:"Operations",v:28,c:"#8b5cf6"},{l:"Customer",v:24,c:"#10b981"},{l:"Supply Chain",v:18,c:"#f59e0b"},{l:"HR",v:12,c:"#ec4899"}];const maturity=[{l:"Strategy",v:65},{l:"Governance",v:48},{l:"Architecture",v:55},{l:"Quality",v:42},{l:"Analytics",v:72},{l:"Security",v:58}];const heatmap=[[85,42,67,78,55],[32,78,45,89,62],[71,35,92,41,73],[58,86,29,65,81]];const xLabels=["Finance","Ops","Customer","SC","HR"];const yLabels=["Data Quality","Coverage","Governance","Automation"];const gantt=[{n:"Data Governance",s:0,d:5,p:85,st:"Completed"},{n:"Platform Migration",s:2,d:7,p:60,st:"In Progress"},{n:"Analytics Platform",s:4,d:4,p:100,st:"Completed"},{n:"Data Quality",s:6,d:6,p:25,st:"Planned"},{n:"ML Ops",s:8,d:6,p:0,st:"Planned"}];const bubble=[{l:"UC-01",e:80,v:85,s:18,c:"#3b82f6"},{l:"UC-02",e:85,v:20,s:22,c:"#10b981"},{l:"UC-03",e:15,v:80,s:16,c:"#ef4444"},{l:"UC-04",e:20,v:15,s:14,c:"#6b7280"},{l:"UC-05",e:50,v:60,s:20,c:"#8b5cf6"}];const kpis=[{l:"Data Quality",v:62,target:85},{l:"Governance Adoption",v:38,target:80},{l:"Platform Maturity",v:45,target:75},{l:"Stakeholder Coverage",v:78,target:95}];return(<div className="min-h-screen bg-zinc-950 text-white"><nav className="bg-zinc-900 border-b border-zinc-800 px-6 py-3"><div className="flex gap-1">{NAV.map((n,i)=>(<a key={i} href={n.h} className={`px-4 py-2 rounded text-sm font-medium ${i===0?"bg-blue-600 text-white":"bg-zinc-800 text-zinc-300 hover:bg-zinc-700"}`}>{n.l}</a>))}</div></nav><main className="p-6 max-w-7xl mx-auto space-y-6">{tab==="overview"&&(<><div className="grid grid-cols-6 gap-4">{[{l:"Total Use Cases",v:"103",c:"+12"},{l:"Data Domains",v:"24",c:"+3"},{l:"Initiatives",v:"43",c:"+8"},{l:"Maturity Score",v:"2.4",c:"+0.3"},{l:"Pain Points",v:"89",c:"+15"},{l:"Stakeholders",v:"156",c:"+22"}].map((m,i)=><div key={i} className="bg-zinc-900 border border-zinc-800 rounded-lg p-4"><p className="text-zinc-400 text-[10px] uppercase">{m.l}</p><p className="text-2xl font-bold mt-1">{m.v}</p><p className="text-emerald-400 text-[10px] mt-1">{m.c}</p></div>)}</div><div className="grid grid-cols-4 gap-4">{kpis.map((k,i)=><GaugeChart key={i} v={k.v} title={k.l}/>)}</div><div className="grid grid-cols-3 gap-4"><DonutChart d={ucType} title="Use Cases by Type"/><BarChart d={ucDomain} title="Use Cases by Domain"/><FunnelChart d={[{l:"Identified",v:103,c:"#3b82f6"},{l:"Scored",v:78,c:"#8b5cf6"},{l:"Prioritized",v:45,c:"#10b981"},{l:"Approved",v:28,c:"#f59e0b"}]} title="Use Case Funnel"/></div><div className="grid grid-cols-2 gap-4"><RadarChart d={maturity} title="DAMA Maturity Assessment"/><HeatmapChart d={heatmap} title="Domain Capability Matrix" xL={xLabels} yL={yLabels}/></div><GanttChart d={gantt} title="Initiative Timeline"/></>)}</main></div>);}
+  return(<div className="min-h-screen bg-zinc-950 text-white">
+    <nav className="bg-zinc-900 border-b border-zinc-800 px-6 py-3"><div className="flex gap-1">{"+NAV.map((n,i)=>(<a key={i} href={n.h} className={"+"`px-4 py-2 rounded text-sm font-medium ${i===0?"bg-blue-600 text-white":"bg-zinc-800 text-zinc-300 hover:bg-zinc-700"}`+"}>{"+n.l+"}</a>))}</div></nav>
+    <main className="p-6 max-w-7xl mx-auto space-y-6">
+      <h1 className="text-2xl font-bold">Data Strategy Command Center</h1>
+      <div className="grid grid-cols-6 gap-4">
+        <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-4"><p className="text-zinc-400 text-xs uppercase">Use Cases</p><p className="text-3xl font-bold text-white mt-1">{"+stats.uc}</p></div>
+        <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-4"><p className="text-zinc-400 text-xs uppercase">Initiatives</p><p className="text-3xl font-bold text-white mt-1">{"+stats.init}</p><p className="text-xs text-zinc-500">{"+w1+"}W1 / {"+w2+"}W2 / {"+w3+"}W3</p></div>
+        <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-4"><p className="text-zinc-400 text-xs uppercase">Data Domains</p><p className="text-3xl font-bold text-white mt-1">{"+stats.dom}</p></div>
+        <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-4"><p className="text-zinc-400 text-xs uppercase">Pain Points</p><p className="text-3xl font-bold text-white mt-1">{"+stats.pp}</p></div>
+        <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-4"><p className="text-zinc-400 text-xs uppercase">Risks</p><p className="text-3xl font-bold text-white mt-1">{"+stats.risks}</p></div>
+        <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-4"><p className="text-zinc-400 text-xs uppercase">Stakeholders</p><p className="text-3xl font-bold text-white mt-1">{"+stats.sh}</p><p className="text-xs text-zinc-500">{"+stats.complete} done</p></div>
+      </div>
+      <div className="grid grid-cols-4 gap-6">
+        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
+          <h3 className="text-sm font-semibold text-zinc-300 mb-3">Interview Progress</h3>
+          <div className="flex items-center gap-4">
+            <div className="relative w-24 h-24">
+              <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
+                <circle cx="50" cy="50" r="40" fill="none" stroke="#27272a" strokeWidth="8"/>
+                <circle cx="50" cy="50" r="40" fill="none" stroke="#3b82f6" strokeWidth="8" strokeDasharray={"+completionPct*2.51+" 251"} strokeLinecap="round"/>
+              </svg>
+              <div className="absolute inset-0 flex items-center justify-center"><span className="text-xl font-bold">{"+completionPct+"}%</span></div>
+            </div>
+            <div className="space-y-2 text-sm">
+              <div className="flex justify-between"><span className="text-zinc-400">Completed</span><span className="text-emerald-400 font-medium">{"+stats.complete}</span></div>
+              <div className="flex justify-between"><span className="text-zinc-400">Champions</span><span className="text-emerald-400 font-medium">{"+stats.champions}</span></div>
+              <div className="flex justify-between"><span className="text-zinc-400">Gaps</span><span className="text-amber-400 font-medium">{"+stats.gaps}</span></div>
+            </div>
+          </div>
+        </div>
+        {"+ucDomainD.length>0?<DonutChart d={ucDomainD} title="Use Cases by Domain"/>:<div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4"><h3 className="text-sm font-semibold text-zinc-300 mb-3">Use Cases by Domain</h3><p className="text-zinc-500 text-center py-8">Add use cases in Data Manager</p></div>}
+        {"+gapSevD.length>0?<DonutChart d={gapSevD} title="Gaps by Severity"/>:<div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4"><h3 className="text-sm font-semibold text-zinc-300 mb-3">Gaps by Severity</h3><p className="text-zinc-500 text-center py-8">Add gaps in Data Manager</p></div>}
+        <BarChart d={[{l:"Wave 1",v:w1},{l:"Wave 2",v:w2},{l:"Wave 3",v:w3}]} title="Initiatives by Wave"/>
+      </div>
+      <div className="grid grid-cols-4 gap-6">
+        <GaugeChart v={completionPct} title="Interview Coverage"/>
+        <GaugeChart v={stats.kpis>0?Math.min(100,stats.kpis*5):0} title="KPI Framework"/>
+        <GaugeChart v={stats.gaps>0?Math.max(0,100-stats.gaps*10):100} title="Gap Resolution"/>
+        <GaugeChart v={stats.pp>0?Math.max(0,100-stats.pp*5):100} title="Pain Point Mitigation"/>
+      </div>
+    </main>
+  </div>);
+}
