@@ -1,7 +1,15 @@
 import React from "react";
 import { useState, useEffect } from "react";
 
-const NAV=[{h:"/",l:"Dashboard"},{h:"/explorer",l:"Explorer"},{h:"/data",l:"Data Manager"},{h:"/stakeholders",l:"Stakeholders"},{h:"/roadmap",l:"Roadmap"},{h:"/governance",l:"Governance"}];
+const NAV=[
+  {h:"/",l:"Dashboard"},
+  {h:"/explorer",l:"Explorer"},
+  {h:"/data",l:"Data Manager"},
+  {h:"/stakeholders",l:"Stakeholders"},
+  {h:"/roadmap",l:"Roadmap"},
+  {h:"/governance",l:"Governance"},
+  {h:"/bulk-import",l:"Bulk Import"},
+];
 
 function DonutChart({d,title}){const t=d.reduce((a,c)=>a+c.v,0);let cu=0;const p=d.map((c,i)=>{const sa=(cu/t)*360-90;cu+=c.v;const ea=(cu/t)*360-90;const x1=100+85*Math.cos(sa*Math.PI/180);const y1=100+85*Math.sin(sa*Math.PI/180);const x2=100+85*Math.cos(ea*Math.PI/180);const y2=100+85*Math.sin(ea*Math.PI/180);const la=ea-sa>180?1:0;return{path:"M"+x1+" "+y1+"A85 85 0 "+la+" 1 "+x2+" "+y2,c:c.c,l:c.l,pct:Math.round(c.v/t*100)};});return(<div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4"><h3 className="text-sm font-semibold text-zinc-300 mb-3">{title}</h3><div className="flex items-center gap-4"><svg viewBox="0 0 200 200" className="w-36 h-36"><circle cx="100" cy="100" r="85" fill="none" stroke="#27272a" strokeWidth="20"/>{p.map((pp,i)=><path key={i} d={pp.path} fill="none" stroke={pp.c} strokeWidth="18" strokeLinecap="round"/>)}<text x="100" y="100" textAnchor="middle" dominantBaseline="middle" className="fill-white text-lg font-bold">"+t+"</text></svg><div className="space-y-1">{"+d.map((c,i)=><div key={i} className="flex items-center gap-2"><div className="w-2 h-2 rounded-full" style={{backgroundColor:c.c}}/><span className="text-xs text-zinc-300">"+c.l+"</span><span className="text-xs text-zinc-500 ml-auto">"+p[i].pct+"%</span></div>)}</div></div></div>);}
 
